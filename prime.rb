@@ -1,13 +1,25 @@
 require 'prime'
-sum = 0
-max_prime = 0
-max_sum = 1_000_000
+class Foo
+  MAX_SUM = 1_000_000
 
-Prime.take_while {|p| p < max_sum }.each do |number|
-  sum += number
+  class << self
+
+    def calculate_sum
+      sum = 0
+      max_prime = 0
+
+      Prime.take_while {|p| p < MAX_SUM }.each do |number|
+        sum += number
+        
+        break if sum >= MAX_SUM
+        max_prime = sum if Prime.prime?(sum)
+      end
+      
+      max_prime
+    end  
+    
+  end
   
-  break if sum >= max_sum
-  max_prime = sum if Prime.prime?(sum)
 end
 
-puts max_prime
+puts Foo.calculate_sum
